@@ -1,0 +1,6 @@
+{
+    "deno.enable": true,
+    "deno.lint": true,
+    "deno.codeLens.implementations": true,
+    "deno.suggest.imports.autoDiscover": true
+}
