@@ -1,0 +1,149 @@
+#event-selector {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+}
+
+.event-link {
+    width: 30vw;
+    min-width: 200px;
+
+    height: auto;
+
+    font-size: normal;
+
+    background-color: white;
+
+    margin: 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    user-select: none;
+    cursor: pointer;
+}
+
+.event-link .event-name {
+    width: 100%;
+    text-align: center;
+
+    background-color: rgb(233, 198, 0);
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.selector-img {
+    display: block;
+
+    max-width: 40%;
+
+    width: auto;
+    height: auto;
+
+    aspect-ratio: 1 / 1;
+
+    padding: 15px;
+}
+
+.event-details {
+    color: rgb(122, 122, 122)
+}
+
+.centered-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.centered-info {
+    width: 60%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.item p {
+    margin: 0;
+    padding: 0;
+}
+
+#race-selector .item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+#race-selector .item:hover {
+    border: 2px solid black;
+}
+
+#race-selector .item .race-number {
+    float: left;
+}
+
+#race-selector .item .race-year {
+    float: right;
+}
+
+.item-bg-00 {
+    background-color: white;
+}
+
+.item-bg-01 {
+    background-color: rgb(226, 226, 226);
+}
+
+.error {
+    padding: 10px;
+    background-color: red;
+}
+
+#back-to-selection {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#race-information-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#race-information {
+    width: 40%;
+    min-width: 400px;
+
+    border: 1px solid black;
+}
+
+.info-item {
+    padding: 8px;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.info-item-bg-00 {
+    background-color: white;
+}
+
+.info-item-bg-01 {
+    
+}
+
+.info-item p {
+    margin: 0;
+    padding: 0;
+}
+
+.info-item-title {
+    background-color: #ffc726;
+}
+
+.info-title {
+    width: 30%;
+    padding: 8px;
+}
