@@ -56,6 +56,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    margin-bottom: 2em;
 }
 
 .centered-info {
@@ -80,7 +82,7 @@
 }
 
 #race-selector .item:hover {
-    border: 2px solid black;
+    background-color: rgb(255, 246, 192);
 }
 
 #race-selector .item .race-number {
@@ -119,12 +121,10 @@
 }
 
 #race-information {
-    max-width: 80vw;
+    max-width: 90vw;
 }
 
 .info-item {
-    padding: 8px;
-
     display: flex;
     flex-direction: row;
 
@@ -176,12 +176,7 @@
 
 .info-item p {
     margin: 0;
-    padding: 0;
-}
-
-.info-item-title {
-    background-color: #ffc726;
-    border-top: 1px solid black;;
+    padding: 8px;
 }
 
 .info-source a {
@@ -195,6 +190,15 @@
     padding: 8px;
 
     border-right: 1px solid black;
+}
+
+.info-item-title {
+    background-color: #ffc726;
+    border-top: 1px solid black;
+}
+
+.wrapper-title {
+    border-right: none;
 }
 
 .info-value {

@@ -181,7 +181,7 @@ app.get("/:event_id/:race_index", (req, res, next) => {
         // crew title
         info_items += `
         <div class="info-item info-item-title info-item-crew">
-            <p class="info-title">roeiers</p>
+            <p class="info-title">bemanning</p>
             <p class="info-value">${race.crew.length}</p>
         </div>
         `;
@@ -224,7 +224,7 @@ app.get("/:event_id/:race_index", (req, res, next) => {
         // notes title
         info_items += `
             <div class="info-item info-item-title ${race.notes.length == 0 ? "info-item-bottom" : ""} info-item-crew">
-                <p class="info-title">notes</p>
+                <p class="info-title wrapper-title">notes</p>
                 <p class="info-value">${race.notes.length}</p>
             </div>
         `;
@@ -242,7 +242,7 @@ app.get("/:event_id/:race_index", (req, res, next) => {
         // sources title
         info_items += `
         <div class="info-item info-item-title ${race.sources.length == 0 ? "info-item-bottom" : ""} info-item-crew">
-            <p class="info-title">sources</p>
+            <p class="info-title wrapper-title">sources</p>
             <p class="info-value">${race.sources.length}</p>
         </div>
         `;
@@ -250,7 +250,7 @@ app.get("/:event_id/:race_index", (req, res, next) => {
         for (let i = 0; i < race.sources.length; i++) {
             info_items += `
                 <div class="info-item info-item-bg-${i % 2 == 0 ? "04" : "05"} ${i == race.sources.length - 1 ? "info-item-bottom" : ""}">
-                    <p class="info-source" ><a href="${varsitySources[race.sources[i]]}" target="_blank">${new URL(varsitySources[race.sources[i]]).host}</a></p>
+                    <p class="info-source" ><a href="${varsitySources[race.sources[i]]}" target="_blank">${new URL(varsitySources[race.sources[i]]).host}→</a></p>
                 </div>
             `;
         }
