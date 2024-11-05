@@ -1,11 +1,27 @@
 import express from "npm:express@5.0.1";
 import path from "node:path";
-import fs from "node:fs";
+import fs, { createWriteStream, read } from "node:fs";
+import { title } from "node:process";
 
 const app = express();
 
 const varsitySourcesURL = "https://raw.githubusercontent.com/Coenicorn/varsity-winners/refs/tags/v1.0.1/varsity_winners_sources.json", varsityDataURL = "https://raw.githubusercontent.com/Coenicorn/varsity-winners/refs/tags/v1.0.1/varsity_winners.json";
-const varsitySources = await (await fetch(varsitySourcesURL)).json(), varsityData = await (await fetch(varsityDataURL)).json();
+const varsitySourcesURLFallback = "localhost:8000/assets/varsity_winners_sources.json", varsityDataURLFallback = "localhost:8000/assets/varsity_winners.json";
+let varsitySources, varsityData;
+let dataFetchFail = false;
+
+await (async () => {
+    try {
+        varsitySources = await (await fetch(varsitySourcesURL)).json();
+        varsityData = await (await fetch(varsityDataURL)).json();
+    } catch (e) {
+        varsitySources = JSON.parse(fs.readFileSync(path.join(import.meta.dirname, "../html/assets/varsity_winners_sources.json")));
+        varsityData = JSON.parse(fs.readFileSync(path.join(import.meta.dirname, "../html/assets/varsity_winners.json")));
+    
+        dataFetchFail = true;
+        
+    }
+})();
 
 app.use("/assets", express.static(path.join(import.meta.dirname, "../html/assets")));
 
@@ -30,7 +46,15 @@ app.get("/", (req, res) => {
 
         let events_wrapper = `<div id="event-selector">${event_links}</div>`
 
-        const modifiedContent = htmlContent.replace("{{RENDERED_CONTENT}}", events_wrapper);
+        let replace_content = `
+            ${ dataFetchFail ? `
+                <p id="fetch-error">Failed to reach resources online, results might be outdated. Contact administrator when this problem persists</p>
+            ` : ""
+            }
+            ${events_wrapper}
+        `;
+
+        const modifiedContent = htmlContent.replace("{{RENDERED_CONTENT}}", replace_content);
 
         res.send(modifiedContent);
 
@@ -59,7 +83,7 @@ app.get("/:event_id", (req, res, next) => {
 
             races += `
                 <div class="item item-bg-${n % 2 == 0 ? "00" : "01"}" onclick="window.location.href='/${eventid}/${l - i}'">
-                    <p class="race-number">${n}</p>
+                    <p class="race-number"># ${n}</p>
                     <p class="race-year">${year}</p>
                 </div>
             `;
@@ -104,15 +128,134 @@ app.get("/:event_id/:race_index", (req, res, next) => {
             <div id="race-information-wrapper">
                 <p id="back-to-selection" onclick="window.location.href='/${event_id}'">< back</p>
                 <div id="race-information">
-                    <div class="info-item item-bg-00">
-                        <p>
-                            <span class="info-item-emoji">b</span>
-                            value
-                        </p>
+                    <div class="info-item info-item-title">
+                        <p class="info-title"># ${race_index}</p>
+                        <p class="info-value">${race.date.split("-")[2]}</p>
                     </div>
+                    {{INFO_ITEMS}}
                 </div>
             </div>
         `;
+
+        let info_items = "";
+
+        // date
+        info_items += `
+            <div class="info-item info-item-bg-00">
+                <p class="info-title">datum</p>
+                <p class="info-value">${race.date}</p>
+            </div>
+        `;
+        // location
+        info_items += `
+            <div class="info-item info-item-bg-01">
+                <p class="info-title">locatie</p>
+                <p class="info-value">${race.location}</p>
+            </div>
+        `;
+        // club
+        info_items += `
+            <div class="info-item info-item-bg-00">
+                <p class="info-title">winnende club</p>
+                <p class="info-value">${race.club}</p>
+            </div>
+        `;
+        // tijd
+        info_items += `
+            <div class="info-item info-item-bg-01">
+                <p class="info-title">finishtijd</p>
+                <p class="info-value">${race.time}</p>
+            </div>
+        `;
+        // margin
+        info_items += `
+            <div class="info-item info-item-bg-00 info-item-bottom">
+                <p class="info-title">winstmarge</p>
+                <p class="info-value">${race.alt_margin.length == 0 ? race.margin : race.alt_margin}</p>
+            </div>
+        `;
+
+
+        // crew
+        
+        // crew title
+        info_items += `
+        <div class="info-item info-item-title info-item-crew">
+            <p class="info-title">roeiers</p>
+            <p class="info-value">${race.crew.length}</p>
+        </div>
+        `;
+
+        if (race.crew.length % 2 == 0) {
+            // ongestuurd
+
+            for (let i = 0; i < race.crew.length; i++) {
+                let crew_type = "";
+                if (i == 0) crew_type = "boeg";
+                else if (i == race.crew.length - 1) crew_type = "slag";
+
+                info_items += `
+                    <div class="info-item info-item-bg-${i % 2 == 0 ? "07" : "06"} ${i == race.crew.length - 1 ? "info-item-bottom" : ""}">
+                        <p class="info-title">${crew_type.length == 0 ? `${i}` : `${crew_type}`}</p>
+                        <p class="info-value">${race.crew[i].name}</p>
+                    </div>
+                `;
+            }
+        } else {
+            // gestuurd
+
+            for (let i = 0; i < race.crew.length; i++) {
+                let crew_type = "";
+                if (i == 0) crew_type = "boeg";
+                else if (i == race.crew.length - 2) crew_type = "slag";
+                else if (i == race.crew.length - 1) crew_type = "stuur";
+
+                info_items += `
+                    <div class="info-item info-item-bg-${i % 2 == 0 ? "07" : "06"} ${i == race.crew.length - 1 ? "info-item-bottom" : ""}">
+                        <p class="info-title">${crew_type.length == 0 ? `${i}` : `${crew_type}`}</p>
+                        <p class="info-value">${race.crew[i].name}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // notes
+        
+        // notes title
+        info_items += `
+            <div class="info-item info-item-title ${race.notes.length == 0 ? "info-item-bottom" : ""} info-item-crew">
+                <p class="info-title">notes</p>
+                <p class="info-value">${race.notes.length}</p>
+            </div>
+        `;
+        
+        for (let i = 0; i < race.notes.length; i++) {
+            info_items += `
+                <div class="info-item info-item-bg-02 ${i == race.notes.length - 1 ? "info-item-bottom" : ""}">
+                    <p class="">${race.notes[i]}</p>
+                </div>
+            `;
+        }
+
+        // sources
+        
+        // sources title
+        info_items += `
+        <div class="info-item info-item-title ${race.sources.length == 0 ? "info-item-bottom" : ""} info-item-crew">
+            <p class="info-title">sources</p>
+            <p class="info-value">${race.sources.length}</p>
+        </div>
+        `;
+        
+        for (let i = 0; i < race.sources.length; i++) {
+            info_items += `
+                <div class="info-item info-item-bg-${i % 2 == 0 ? "04" : "05"} ${i == race.sources.length - 1 ? "info-item-bottom" : ""}">
+                    <p class="info-source" ><a href="${varsitySources[race.sources[i]]}" target="_blank">${new URL(varsitySources[race.sources[i]]).host}</a></p>
+                </div>
+            `;
+        }
+
+        info_wrapper = info_wrapper.replace("{{INFO_ITEMS}}", info_items);
 
         const modifiedContent = htmlContent.replace("{{RENDERED_CONTENT}}", info_wrapper);
 
