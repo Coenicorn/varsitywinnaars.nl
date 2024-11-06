@@ -125,7 +125,8 @@ main {
 }
 
 #race-information {
-    max-width: 90vw;
+    width: 90vw;
+    max-width: 600px;
 }
 
 .info-item {
