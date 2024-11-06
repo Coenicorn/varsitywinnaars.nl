@@ -144,21 +144,21 @@ app.get("/:event_id/:race_index", (req, res, next) => {
     // club
     info_items += `
         <div class="info-item info-item-bg-00">
-            <p class="info-title">winnende club</p>
+            <p class="info-title">winnaar</p>
             <p class="info-value">${race.club}</p>
         </div>
     `;
     // tijd
     info_items += `
         <div class="info-item info-item-bg-01">
-            <p class="info-title">finishtijd</p>
+            <p class="info-title">tijd</p>
             <p class="info-value">${race.time}</p>
         </div>
     `;
     // margin
     info_items += `
         <div class="info-item info-item-bg-00 info-item-bottom">
-            <p class="info-title">winstmarge</p>
+            <p class="info-title">marge</p>
             <p class="info-value">${race.alt_margin.length == 0 ? race.margin : race.alt_margin}</p>
         </div>
     `;
@@ -230,7 +230,7 @@ app.get("/:event_id/:race_index", (req, res, next) => {
     // sources title
     info_items += `
     <div class="info-item info-item-title ${race.sources.length == 0 ? "info-item-bottom" : ""} info-item-crew">
-        <p class="info-title wrapper-title">sources</p>
+        <p class="info-title wrapper-title">bronnen</p>
         <p class="info-value">${race.sources.length}</p>
     </div>
     `;
