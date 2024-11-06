@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
 
     for (let i = 0; i < events.length; i++) {
         event_links += `
-        <div draggable="false" class="event-link soft-shadow" onclick="window.location.href='/${events[i].event_id}'">
+        <div draggable="false" class="event-link soft-shadow" onclick="window.location.href='/events/${events[i].event_id}'">
             <img src="assets/varsity.png" alt="varsity-logo" class="selector-img">
             <p class="event-name">${events[i].event_name}</p>
             <p class="event-details">${events[i].data.length}</p>
@@ -57,7 +57,7 @@ app.get("/", (req, res) => {
     res.send(modifiedContent);
 });
 
-app.get("/:event_id", (req, res, next) => {
+app.get("/events/:event_id", (req, res, next) => {
 
     const eventid = req.params.event_id;
 
@@ -80,7 +80,7 @@ app.get("/:event_id", (req, res, next) => {
         const year = event.data[i].date.split("-")[2];
 
         races += `
-            <div class="item race-item item-bg-${n % 2 == 0 ? "00" : "01"}" onclick="window.location.href='/${eventid}/${l - i}'">
+            <div class="item race-item item-bg-${n % 2 == 0 ? "00" : "01"}" onclick="window.location.href='/events/${eventid}/${l - i}'">
                 <p class="race-year">${year}</p>
                 <p class="race-number">${n}</p>
             </div>
@@ -108,7 +108,7 @@ app.get("/:event_id", (req, res, next) => {
 
 });
 
-app.get("/:event_id/:race_index", (req, res, next) => {
+app.get("/events/:event_id/:race_index", (req, res, next) => {
 
     const event_id = req.params.event_id;
     const race_index = Number(req.params.race_index);
@@ -119,7 +119,7 @@ app.get("/:event_id/:race_index", (req, res, next) => {
 
     let info_wrapper = `
         <div id="race-information-wrapper">
-            <p id="back-to-selection" onclick="window.location.href='/${event_id}'">< back</p>
+            <p id="back-to-selection" onclick="window.location.href='/events/${event_id}'">< back</p>
             <div id="race-information">
                 <div class="info-item info-item-title">
                     <p class="info-title">${race.date.split("-")[2]}</p>
@@ -255,10 +255,6 @@ app.get("/:event_id/:race_index", (req, res, next) => {
     res.send(modifiedContent);
 
 });
-
-app.get("/raw", (req, res) => {
-    res.send(varsityData);
-})
 
 app.use((req, res, next) => {
     const filePath = path.join(import.meta.dirname, "../html/404.html");
