@@ -68,16 +68,21 @@ app.get("/:event_id", (req, res, next) => {
         return;
     }
 
-    let races = "";
+    let races = `
+        <div class="item item-title">
+            <p class="race-year">jaar</p>
+            <p class="race-number"># </p>
+        </div>
+    `;
 
     for (let i = 0,l = event.data.length; i < l; i++) {
         const n = l - i;
         const year = event.data[i].date.split("-")[2];
 
         races += `
-            <div class="item item-bg-${n % 2 == 0 ? "00" : "01"}" onclick="window.location.href='/${eventid}/${l - i}'">
-                <p class="race-number"># ${n}</p>
+            <div class="item race-item item-bg-${n % 2 == 0 ? "00" : "01"}" onclick="window.location.href='/${eventid}/${l - i}'">
                 <p class="race-year">${year}</p>
+                <p class="race-number">${n}</p>
             </div>
         `;
     }
@@ -117,8 +122,8 @@ app.get("/:event_id/:race_index", (req, res, next) => {
             <p id="back-to-selection" onclick="window.location.href='/${event_id}'">< back</p>
             <div id="race-information">
                 <div class="info-item info-item-title">
-                    <p class="info-title"># ${race_index}</p>
-                    <p class="info-value">${race.date.split("-")[2]}</p>
+                    <p class="info-title">${race.date.split("-")[2]}</p>
+                    <p class="info-value">#${race_index}</p>
                 </div>
                 {{INFO_ITEMS}}
             </div>

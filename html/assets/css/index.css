@@ -85,16 +85,21 @@ main {
     cursor: pointer;
 }
 
-#race-selector .item:hover {
+#race-selector .item-title {
+    cursor: default;
+    background-color: #ffc726;
+}
+
+#race-selector .race-item:hover {
     background-color: rgb(255, 246, 192);
 }
 
 #race-selector .item .race-number {
-    float: left;
+    float: right;
 }
 
 #race-selector .item .race-year {
-    float: right;
+    float: left;
 }
 
 .item-bg-00 {
