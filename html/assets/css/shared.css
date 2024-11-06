@@ -80,6 +80,8 @@ main {
     flex: 1;
 
     background-color: #cae8ff;
+
+    font-family: "Fira Mono", monospace;
 }
 
 footer {
@@ -114,4 +116,20 @@ footer {
 
 #not-found-text {
     text-align: center;
+    position: absolute;
+
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+
+    padding: 10px;
+    background-color: rgb(255, 87, 87);
+    width: fit-content;
+
+    border-radius: 5px;
+}
+
+#not-found-text p {
+    margin: 0;
+    padding: 10px;
 }
