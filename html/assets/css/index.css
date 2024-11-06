@@ -208,6 +208,11 @@ main {
 .info-value {
     width: 70%;
 
+    margin-left: 30%;
+    text-align: left;
+}
+
+.info-item-title .info-value {
     text-align: right;
 }
 
