@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
+import Header from "./header.tsx"
+
 const firaMono = localFont({
   src: "./fonts/FiraMono.woff2",
   variable: "--font-fira-mono",
