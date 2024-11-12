@@ -57,6 +57,10 @@ app.get("/", (req, res) => {
     res.send(modifiedContent);
 });
 
+app.get("/contribute", (req, res) => {
+    res.send(fs.readFileSync(path.join(import.meta.dirname, "../html/contribute.html"), "utf-8"));
+});
+
 app.get("/events/:event_id", (req, res, next) => {
 
     const eventid = req.params.event_id;
