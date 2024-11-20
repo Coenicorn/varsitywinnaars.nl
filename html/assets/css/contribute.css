@@ -1,0 +1,24 @@
+main {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+
+    font-size: large;
+}
+
+.gold-shadow {
+    text-shadow: 0px 0px 11px rgba(206,157,54,0.85), 0px 0px 13px rgba(206,157,54,0.85), 0px 0px 15px rgba(206,157,54,0.85), 0px 0px 17px rgba(206,157,54,0.85), 0px 0px 20px rgba(206,157,54,0.85), 0px 0px 20px rgba(206,157,54,0.85);
+}
+
+#text-wrapper {
+    max-width: 600px;
+    text-align: center;
+}
+
+#text-wrapper ul {
+    text-align: left;
+}
+
+#text-wrapper h2 {
+    margin-top: 2em;
+}
