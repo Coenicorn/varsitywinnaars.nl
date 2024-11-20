@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
 
-import Header from "./header.tsx"
+import Header from "./header";
+import Footer from "./footer";
 
 const firaMono = localFont({
   src: "./fonts/FiraMono.woff2",
@@ -24,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={firaMono.className}>
-        {children}
+        <Header/>
+        <main>{children}</main>
+        <Footer/>
       </body>
     </html>
   );
